@@ -15,6 +15,7 @@ else
     # Not bash or ksh, so assume sh.
     __ms_shell=sh
 fi
+target="orion"
 
 # Handle platform as an optional command line argument
 platform=${1:-no_platform_specified}
@@ -45,6 +46,9 @@ if [ "$platform" = "no_platform_specified" ]; then
     elif [[ "$(hostname)" =~ "odin" ]]; then
         # We are on odin
         platform=odin
+    elif [[ "$(hostname)" =~ "Orion" ]]; then
+        # We are on orion
+        platform=orion
     else
         # We are on an unknown machine
         echo WARNING: UNKNOWN PLATFORM 1>&2
@@ -79,6 +83,20 @@ elif [ "$target" = "theia" ] || [ "$target" = "hera" ] ; then
     module purge
     module use /scratch3/NCEPDEV/nwprod/modulefiles/
     module use /scratch3/NCEPDEV/nwprod/lib/modulefiles
+elif [[ "$target" = "orion" ]] ; then
+    # We are on MSU orion 
+    if ( ! eval module help > /dev/null 2>&1 ) ; then
+	echo load the module command 1>&2
+        source /apps/lmod/init/$__ms_shell
+    fi
+    target=orion
+    module purge
+    module load contrib
+    module use /apps/contrib/NCEPLIBS/orion/modulefiles 
+    MOD_PATH=/apps/contrib/NCEPLIBS/orion/modulefiles 
+    export CMAKE_C_COMPILER=mpiicc
+    export CMAKE_CXX_COMPILER=mpiicpc
+    export CMAKE_Fortran_COMPILER=mpiifort
 elif [ "$target" = "wcoss_cray" ] ; then
     # We are on NOAA Luna or Surge
     if ( ! eval module help > /dev/null 2>&1 ) ; then

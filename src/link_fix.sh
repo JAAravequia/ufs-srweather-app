@@ -20,6 +20,10 @@ elif [ ${target} == "hera" ]; then
 
     ln -sfn /scratch1/NCEPDEV/global/glopara/fix/fix_am fix_am
 
+elif [ ${target} == "orion" ]; then
+
+    ln -sfn /work/noaa/fv3-cam/emc.campara/fix_fv3cam/fix_am fix_am
+
 elif [[ ${target} == "wcoss_dell_p3" || ${target} == "wcoss" ||  ${target} == "wcoss_cray" ]]; then
 
     ln -sfn /gpfs/dell2/emc/modeling/noscrub/emc.campara/fix_fv3cam fix_am
