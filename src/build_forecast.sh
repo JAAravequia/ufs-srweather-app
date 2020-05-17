@@ -23,6 +23,7 @@ else
 fi
 
 target=${target}.intel
+CCPP=${CCPP:-"true"}
 
 cd ufs_weather_model
 model_top_dir=`pwd`
